@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace PSB2.Provider
 {
-    [CmdletProvider("B2", ProviderCapabilities.Credentials)]
+    [CmdletProvider("PSB2", ProviderCapabilities.Credentials)]
     public class B2Provider : NavigationCmdletProvider, IContentCmdletProvider, IPropertyCmdletProvider
     {
         public void ClearContent(string path)
