@@ -72,5 +72,25 @@ namespace PSB2.Provider
         {
             throw new NotImplementedException();
         }
+
+        protected override void GetChildItems(string path, bool recurse)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override bool IsItemContainer(string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Collection<PSDriveInfo> InitializeDefaultDrives()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void RenameItem(string path, string newName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
