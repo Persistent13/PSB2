@@ -18,13 +18,14 @@ namespace PSB2.Functions
             };
             RestRequest req = new RestRequest()
             {
-                Method = Method.GET
+                Method = Method.GET,
+                RequestFormat = DataFormat.Json
             };
 
             return client.Execute<Account>(req).Data;
         }
 
-        public static Bucket[] ListBuckets(Account account)
+        public static BucketContainer ListBuckets(Account account)
         {
             var client = new RestClient()
             {
@@ -33,12 +34,13 @@ namespace PSB2.Functions
             var req = new RestRequest()
             {
                 Method = Method.POST,
-                Resource = "/b2api/v1/b2_list_buckets"
+                Resource = "/b2api/v1/b2_list_buckets",
+                RequestFormat = DataFormat.Json
             };
             req.AddHeader("Authorization", account.AuthorizationToken);
             req.AddJsonBody(new Dictionary<string, string> { ["accountId"] = account.AccountId });
 
-            var data = JsonConvert.DeserializeObject<Bucket[]>(client.Execute(req).Content);
+            BucketContainer data = client.Execute<BucketContainer>(req).Data;
             return data;
         }
     }

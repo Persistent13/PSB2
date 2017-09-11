@@ -33,6 +33,7 @@ namespace PSB2
             {
                 try
                 {
+                    WriteDebug("AccountId and/or ApplicationKey is empty and/or null, prompting for credentials.");
                     PSCredential cred = Host.UI.PromptForCredential(string.Empty, "Please enter the AccountId and ApplicationKey below.", string.Empty, string.Empty);
                     AccountId = cred.UserName;
                     ApplicationKey = cred.GetNetworkCredential().Password;
@@ -59,18 +60,22 @@ namespace PSB2
     }
 
     [Alias("gb2b")]
-    [OutputType(typeof(Bucket[]))]
+    [OutputType(typeof(Bucket))]
     [CmdletBinding(PositionalBinding = false)]
     [Cmdlet(VerbsCommon.Get, "B2Bucket")]
     public class GetB2BucketCommand : PSCmdlet
     {
         protected override void ProcessRecord()
         {
-            Bucket[] bucketData = B2Functions.ListBuckets(ModuleVars._account);
-
-            foreach(Bucket bucket in bucketData)
+            if (ModuleVars._account == null)
             {
-                WriteObject(bucket);
+                ThrowTerminatingError(new ErrorRecord(new FieldAccessException("Please run Connect-B2Cloud to authenticate."), "B2AccountNotAuthenticated", ErrorCategory.AuthenticationError, null));
+            }
+            BucketContainer bucketData = B2Functions.ListBuckets(ModuleVars._account);
+
+            foreach (Bucket i in bucketData)
+            {
+                WriteObject(i);
             }
         }
     }

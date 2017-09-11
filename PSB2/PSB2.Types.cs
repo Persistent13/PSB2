@@ -47,18 +47,19 @@ namespace PSB2.Types
     {
         public string BucketName { get; set; }
         public string BucketId { get; set; }
-        public string BucketInfo { get; set; }
-        public string LifecycleRules { get; set; }
+        public Dictionary<string, string> BucketInfo { get; set; }
+        public List<Dictionary<string, string>> LifecycleRules { get; set; }
         public BucketType BucketType { get; set; }
         public string AccountId { get; set; }
         public long Revision { get; set; }
 
+        public Bucket() { }
         public Bucket(string BucketName,
                       string BucketId,
                       BucketType BucketType,
                       string AccountId,
-                      string BucketInfo,
-                      string LifecycleRules,
+                      Dictionary<string, string> BucketInfo,
+                      List<Dictionary<string, string>> LifecycleRules,
                       long Revision)
         {
             this.BucketName = BucketName;
@@ -69,25 +70,20 @@ namespace PSB2.Types
             this.LifecycleRules = LifecycleRules;
             this.Revision = Revision;
         }
-        public Bucket() { }
 
         public override string ToString()
         {
-            return BucketName;
+            return JsonConvert.SerializeObject(this);
         }
     }
-    //public class BucketList : IEnumerable<Bucket>
-    //{
-    //    public List<Bucket> Buckets { get; set; }
 
-    //    public IEnumerator<Bucket> GetEnumerator()
-    //    {
-    //        return Buckets.GetEnumerator();
-    //    }
+    public class BucketContainer : IEnumerable
+    {
+        public List<Bucket> buckets { get; set; }
 
-    //    IEnumerator IEnumerable.GetEnumerator()
-    //    {
-    //        return Buckets.GetEnumerator();
-    //    }
-    //}
+        public IEnumerator GetEnumerator()
+        {
+            return buckets.GetEnumerator();
+        }
+    }
 }
